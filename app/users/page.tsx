@@ -1,4 +1,6 @@
-import EmptyState from '../components/EmptyState';
+import dynamic from 'next/dynamic';
+
+const EmptyState = dynamic(() => import('../components/EmptyState'));
 
 const Users = () => {
   return (

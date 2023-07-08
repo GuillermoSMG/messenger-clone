@@ -1,6 +1,9 @@
+import dynamic from 'next/dynamic';
+
 import getCurrentUser from '@/app/actions/getUser';
-import DesktopSidebar from './DesktopSidebar';
-import MobileFooter from './MobileFooter';
+
+const MobileFooter = dynamic(() => import('./MobileFooter'));
+const DesktopSidebar = dynamic(() => import('./DesktopSidebar'));
 
 async function Sidebar({ children }: { children: React.ReactNode }) {
   const currentUser = await getCurrentUser();

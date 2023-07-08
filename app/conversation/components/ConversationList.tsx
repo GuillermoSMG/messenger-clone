@@ -1,13 +1,15 @@
 'use client';
 
+import clsx from 'clsx';
+import { useState } from 'react';
+import { MdOutlineGroupAdd } from 'react-icons/md';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
+
 import useConversation from '@/app/hooks/useConversation';
 import { FullConversationType } from '@/app/types';
 
-import { MdOutlineGroupAdd } from 'react-icons/md';
-import clsx from 'clsx';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import ConversationBox from './ConversationBox';
+const ConversationBox = dynamic(() => import('./ConversationBox'));
 
 interface ConversationListProps {
   initialItems: FullConversationType[];

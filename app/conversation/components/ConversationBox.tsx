@@ -1,16 +1,18 @@
 'use client';
 
-import { useCallback, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
-import { format } from 'date-fns';
-import { useSession } from 'next-auth/react';
 import clsx from 'clsx';
+import { format } from 'date-fns';
+import { useCallback, useMemo } from 'react';
+import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
 
-import { Conversation, Message, User } from '@prisma/client';
-import { FullConversationType } from '@/app/types';
 import useOtherUser from '@/app/hooks/useOtherUser';
-import Avatar from '@/app/components/Avatar';
-import Box from '@/app/components/Box';
+import { FullConversationType } from '@/app/types';
+import { Conversation, Message, User } from '@prisma/client';
+
+const Box = dynamic(() => import('@/app/components/Box'));
+const Avatar = dynamic(() => import('@/app/components/Avatar'));
 
 interface ConversationBoxProps {
   data: FullConversationType;
@@ -50,7 +52,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
 
     if (lastMessage?.body) return lastMessage.body;
 
-    return 'Start a conv';
+    return 'Start a conversation';
   }, [lastMessage]);
 
   return (

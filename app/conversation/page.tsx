@@ -1,9 +1,11 @@
 'use client';
 
 import clsx from 'clsx';
+import dynamic from 'next/dynamic';
 
 import useConversation from '../hooks/useConversation';
-import EmptyState from '../components/EmptyState';
+
+const EmptyState = dynamic(() => import('../components/EmptyState'));
 
 const Home = () => {
   const { isOpen } = useConversation();

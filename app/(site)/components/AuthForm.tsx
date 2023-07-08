@@ -2,15 +2,16 @@
 
 import axios from 'axios';
 import { signIn, useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { BsGoogle } from 'react-icons/bs';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 
-import AuthSocialButton from './AuthSocialButton';
-import Button from '@/app/components/Button';
-import Input from '@/app/components/input/Input';
+const AuthSocialButton = dynamic(() => import('./AuthSocialButton'));
+const Button = dynamic(() => import('@/app/components/Button'));
+const Input = dynamic(() => import('@/app/components/input/Input'));
 
 type Variant = 'LOGIN' | 'REGISTER';
 

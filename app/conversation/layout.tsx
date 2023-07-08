@@ -1,6 +1,9 @@
+import dynamic from 'next/dynamic';
+
 import getConversations from '../actions/getConversations';
-import Sidebar from '../components/sidebar/Sidebar';
-import ConversationList from './components/ConversationList';
+
+const Sidebar = dynamic(() => import('../components/sidebar/Sidebar'));
+const ConversationList = dynamic(() => import('./components/ConversationList'));
 
 export default async function ConversationsLayout({
   children,

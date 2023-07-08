@@ -1,11 +1,13 @@
 'use client';
-
-import Avatar from '@/app/components/Avatar';
-import Box from '@/app/components/Box';
-import { User } from '@prisma/client';
 import axios from 'axios';
+import dynamic from 'next/dynamic';
 import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
+
+import { User } from '@prisma/client';
+
+const Avatar = dynamic(() => import('@/app/components/Avatar'));
+const Box = dynamic(() => import('@/app/components/Box'));
 
 interface UserBoxProps {
   data: User;
@@ -22,7 +24,7 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
         userId: data.id,
       })
       .then(data => {
-        router.push(`/conversations/${data.data.id}`);
+        router.push(`/conversation/${data.data.id}`);
       })
       .finally(() => setIsLoading(false));
   }, [data.id, router]);

@@ -1,6 +1,7 @@
-import { format } from 'date-fns';
-import { FullMessageType } from '../types';
 import clsx from 'clsx';
+import { format } from 'date-fns';
+
+import { FullMessageType } from '../types';
 
 interface BoxProps {
   data: string;

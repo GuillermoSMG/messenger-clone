@@ -1,6 +1,9 @@
+import dynamic from 'next/dynamic';
+
 import getUsers from '../actions/getUsers';
-import Sidebar from '../components/sidebar/Sidebar';
-import UserList from './components/UserList';
+
+const Sidebar = dynamic(() => import('../components/sidebar/Sidebar'));
+const UserList = dynamic(() => import('./components/UserList'));
 
 export default async function UserLayout({
   children,

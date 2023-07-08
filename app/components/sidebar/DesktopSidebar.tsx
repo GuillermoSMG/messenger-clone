@@ -1,10 +1,13 @@
 'use client';
 
-import useRoutes from '@/app/hooks/useRoutes';
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
-import DesktopItem from './DesktopItem';
+
+import useRoutes from '@/app/hooks/useRoutes';
 import { User } from '@prisma/client';
-import Avatar from '../Avatar';
+
+const Avatar = dynamic(() => import('../Avatar'));
+const DesktopItem = dynamic(() => import('./DesktopItem'));
 
 interface DesktopSidebarProps {
   currentUser: User;
