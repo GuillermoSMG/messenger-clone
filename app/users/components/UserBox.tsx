@@ -7,6 +7,7 @@ import { useCallback, useState } from 'react';
 import { User } from '@prisma/client';
 
 const Avatar = dynamic(() => import('@/app/components/Avatar'));
+const LoadingModal = dynamic(() => import('@/app/components/LoadingModal'));
 const Box = dynamic(() => import('@/app/components/Box'));
 
 interface UserBoxProps {
@@ -29,13 +30,16 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
       .finally(() => setIsLoading(false));
   }, [data.id, router]);
   return (
-    <div
-      onClick={handleClick}
-      className='w-full relative flex items-center space-x-3 bg-white p-3 hover:bg-neutral-100 rounded-lg transition cursor-pointer'
-    >
-      <Avatar user={data} />
-      <Box data={data.name as string} />
-    </div>
+    <>
+      {isLoading && <LoadingModal />}
+      <div
+        onClick={handleClick}
+        className='w-full relative flex items-center space-x-3 bg-white p-3 hover:bg-neutral-100 rounded-lg transition cursor-pointer'
+      >
+        <Avatar user={data} />
+        <Box data={data.name as string} />
+      </div>
+    </>
   );
 };
 export default UserBox;
