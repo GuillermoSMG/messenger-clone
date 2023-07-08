@@ -13,6 +13,7 @@ import { Conversation, Message, User } from '@prisma/client';
 
 const Box = dynamic(() => import('@/app/components/Box'));
 const Avatar = dynamic(() => import('@/app/components/Avatar'));
+const AvatarGroup = dynamic(() => import('@/app/components/AvatarGroup'));
 
 interface ConversationBoxProps {
   data: FullConversationType;
@@ -63,7 +64,11 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
       )}
       onClick={handleClick}
     >
-      <Avatar user={otherUser} />
+      {data.isGroup ? (
+        <AvatarGroup users={data.users} />
+      ) : (
+        <Avatar user={otherUser} />
+      )}
       <div className='flex flex-col'>
         <Box
           data={data.name || (otherUser.name as string)}
