@@ -44,7 +44,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
   return (
     <>
       <Modal
-        isOpen
+        isOpen={false}
         onClose={() => {}}
       ></Modal>
       <Transition.Root
