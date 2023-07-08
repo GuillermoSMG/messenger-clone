@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 
 import useOtherUser from '@/app/hooks/useOtherUser';
 import { Conversation, User } from '@prisma/client';
+import useActiveList from '@/app/hooks/useActiveList';
 
 const Avatar = dynamic(() => import('@/app/components/Avatar'));
 const AvatarGroup = dynamic(() => import('@/app/components/AvatarGroup'));
@@ -29,6 +30,8 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
   const otherUser = useOtherUser(data);
 
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
+  const { members } = useActiveList();
+  const isActive = members.indexOf(otherUser?.email!) !== -1;
 
   const joinedDate = useMemo(() => {
     return format(new Date(otherUser.createdAt), 'PP');
@@ -42,7 +45,8 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
     if (data.isGroup) {
       return `${data.users.length} members`;
     }
-  }, [data]);
+    return isActive ? 'Active' : 'Offline';
+  }, [data, isActive]);
 
   return (
     <>
