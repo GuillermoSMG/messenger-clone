@@ -1,64 +1,49 @@
+import { NextResponse } from 'next/server';
+
 import getCurrentUser from '@/app/actions/getUser';
 import prisma from '@/app/libs/prismadb';
-
-import { NextResponse } from 'next/server';
 
 interface IParams {
   conversationId?: string;
 }
 
-export async function POST(request: Request, { params }: { params: IParams }) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: IParams }
+) {
   try {
-    const currentUser = await getCurrentUser();
     const { conversationId } = params;
-    if (!currentUser || !currentUser?.email) {
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    const conversation = await prisma.conversation.findUnique({
+    const existingConversation = await prisma.conversation.findUnique({
       where: {
         id: conversationId,
       },
       include: {
-        messages: {
-          include: {
-            seen: true,
-          },
-        },
         users: true,
       },
     });
 
-    if (!conversation) {
+    if (!existingConversation) {
       return new NextResponse('Invalid ID', { status: 400 });
     }
 
-    const lastMessage = conversation.messages[conversation.messages.length - 1];
-
-    if (!lastMessage) {
-      return NextResponse.json(conversation);
-    }
-
-    const updatedMessage = await prisma.message.update({
+    const deleteConversation = await prisma.conversation.deleteMany({
       where: {
-        id: lastMessage.id,
-      },
-      include: {
-        seen: true,
-        sender: true,
-      },
-      data: {
-        seen: {
-          connect: {
-            id: currentUser.id,
-          },
+        id: conversationId,
+        userIds: {
+          hasSome: [currentUser.id],
         },
       },
     });
 
-    return NextResponse.json(updatedMessage);
+    return NextResponse.json(deleteConversation);
   } catch (error: any) {
-    console.log(error, 'ERROR_MESSAGES_SEEN');
-    return new NextResponse('Internal Error', { status: 500 });
+    console.log(error, 'ERROR_CONVERSATION_DELETE');
+    return new NextResponse('Internal error', { status: 500 });
   }
 }
