@@ -75,7 +75,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
       )}
       <div className='flex flex-col'>
         <Box
-          data={data?.name || (otherUser.name as string)}
+          data={data.name || (otherUser?.name as string)}
           lastMessage={lastMessage}
           lastMessageText={lastMessageText}
           hasSeen={hasSeen}
